@@ -46,6 +46,7 @@ public class Listener implements Runnable {
             }
             while (s.hasNextLine()) {
                 try {
+                    
                     decodeMessage(s.nextLine(), nClient);
                     break;
                 } catch (IOException ex) {
@@ -72,6 +73,9 @@ public class Listener implements Runnable {
 
     private static void decodeMessage(String message, Socket nCliente) throws IOException, InterruptedException {
         long startTime = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+        
+        System.out.println(sdf.format(startTime));
         long serverTime=getRealTime();
         long estimatedTime = System.currentTimeMillis() - startTime;
         System.out.println("O servidor demorou: " + estimatedTime/1000 + " segundos, para obter o hora");

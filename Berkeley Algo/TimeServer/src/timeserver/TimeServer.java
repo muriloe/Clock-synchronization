@@ -26,20 +26,19 @@ public class TimeServer {
 
         ServerSocket serverSocket = new ServerSocket(portCoord);
 
-        Thread thread = new Thread(new Listener(serverSocket));
-        thread.start();
-
         while (true) {
             try {
 
                 System.out.println("\n\n\n\n\nEnter para sincronizar rede");
                 String next = reader.readLine();
-
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                 long myTime = timestamp.getTime();
-                String messageToClient = portCoord.toString().getBytes() + "->" +myTime;
+                Thread thread = new Thread(new Listener(serverSocket, myTime));
+                thread.start();
+
+                String messageToClient = portCoord.toString() + "->" + myTime;
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
-                System.out.println("Hora do time server pré-sincronizar: "+ sdf.format(myTime));
+                System.out.println("Hora do time server pré-sincronizar: " + sdf.format(myTime));
 
                 byte[] b = messageToClient.getBytes();
                 InetAddress addr = InetAddress.getByName("228.5.6.7");

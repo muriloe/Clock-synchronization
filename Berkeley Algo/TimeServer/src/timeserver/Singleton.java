@@ -5,6 +5,7 @@
  */
 package timeserver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ public class Singleton {
      private List<Long> listOfClientTime;
 
      private Singleton(){
-        
+        listOfClientTime = new ArrayList<>();
     }
     
     public static Singleton getInstance(){
@@ -27,7 +28,7 @@ public class Singleton {
     }
 
     public void addClientTime(Long time){
-        listOfClientTime.add(time);
+        listOfClientTime.add(time);     
     }
     
     public List<Long> getListOfClientTime() {

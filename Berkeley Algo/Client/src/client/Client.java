@@ -24,7 +24,7 @@ public class Client {
         System.setProperty("java.net.preferIPv4Stack", "true");
         Timestamp timestamp;
         timestamp = new Timestamp(System.currentTimeMillis());
-        long myTime = timestamp.getTime() - 1000000;
+        long myTime = timestamp.getTime()+ 1000000;
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 
@@ -44,13 +44,17 @@ public class Client {
         Long timeServe = Long.parseLong(parts[1]);
         Long changeTime = myTime - timeServe;
 
-        System.out.println("-----> Difença de tempo entre time server e cliente é: " + sdf.format(changeTime) + " ---- com timestamp:" + changeTime);
+        System.out.println("-----> Difença de timestamp:" + changeTime);
         int portServ = Integer.parseInt(parts[0]);
         Socket clientSocket = new Socket("localhost", portServ);
         String msgIDUsuario = changeTime.toString();
         DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
         outToServer.writeUTF(msgIDUsuario);
 
+        mcs.receive(pkg);
+        data = new String(pkg.getData()).trim();
+        System.out.println(data);
+        //Enviar a média para todos os clientes;
     }
 
 }

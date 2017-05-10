@@ -20,7 +20,7 @@ public class Client {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         myTime = timestamp.getTime();
         Random gerador = new Random();
-        int rand = gerador.nextInt(5000000) + 1000000;
+        int rand = gerador.nextInt(500000000) + 100000000;
         System.out.println("Hora atual: " + sdf.format(timestamp) + "(Time stamp: " + myTime + ") " + " - " + " TimeStamp: " + rand);
         myTime = myTime - rand;
         System.out.println("Rand horário atual do cliente:" + sdf.format(myTime) + " novo TimeStamp  : " + myTime);

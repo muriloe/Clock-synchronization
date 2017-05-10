@@ -17,9 +17,11 @@ import java.text.SimpleDateFormat;
 public class Listener implements Runnable {
 
     private static ServerSocket port;
+    private static Long serverTime;
 
-    public Listener(ServerSocket port) {
+    public Listener(ServerSocket port, Long serverTime) {
         this.port = port;
+        this.serverTime = serverTime;
     }
 
     @Override
@@ -52,11 +54,24 @@ public class Listener implements Runnable {
             Long clientTime = Long.parseLong(recebidoCliente.trim());
             st.addClientTime(clientTime);
 
-            System.out.println("-----> Um cliente enviou sua hora: " + sdf.format(recebidoCliente.trim()) + " ---- com timestamp:" + recebidoCliente.trim());
+            System.out.println(" ---- Cliente enviou a diferença em timestamp:" + clientTime);
 
         }
 
         System.out.println("Excedeu tempo de espera :/ ");
+        
+        Long newTime=0l;
+        for (Long time : st.getListOfClientTime()) {
+            newTime = newTime + time;
+        }
+        newTime =  newTime / st.getListOfClientTime().size();
+        serverTime = serverTime + newTime;
+        
+        System.out.println("Novo horário!!!!!!!  " + sdf.format(serverTime));
+        
+  
+
+        
     }
 
 }
