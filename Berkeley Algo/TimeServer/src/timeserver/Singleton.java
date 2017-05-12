@@ -15,9 +15,19 @@ import java.util.List;
 public class Singleton {
      private static Singleton myObj;
      private List<Long> listOfClientTime;
+     private List<String> listOfClientAddr;
+
+    public static Singleton getMyObj() {
+        return myObj;
+    }
+
+    public static void setMyObj(Singleton myObj) {
+        Singleton.myObj = myObj;
+    }
 
      private Singleton(){
         listOfClientTime = new ArrayList<>();
+        listOfClientAddr = new ArrayList<>();
     }
     
     public static Singleton getInstance(){
@@ -38,5 +48,16 @@ public class Singleton {
     public void setListOfClientTime(List<Long> listOfClientTime) {
         this.listOfClientTime = listOfClientTime;
     }
-     
+    
+    public List<String> getClientAddr() {
+        return listOfClientAddr;
+    }
+
+    public void setClientAddr(List<String> clientAddr) {
+        this.listOfClientAddr = clientAddr;
+    }
+    
+    public void addClienteAddr(String addr){
+        listOfClientAddr.add(addr);
+    }
 }

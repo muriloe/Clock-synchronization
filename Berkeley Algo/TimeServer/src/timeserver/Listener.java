@@ -1,6 +1,7 @@
 package timeserver;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -39,20 +40,25 @@ public class Listener implements Runnable {
         while (true) {
             Socket socketCliente = null;
             DataInputStream in = null;
+            String cliAddr[];
             String recebidoCliente = "esperando pedido para ficar ";
 
             try {
                 socketCliente = port.accept();
                 in = new DataInputStream(socketCliente.getInputStream());
+                
                 recebidoCliente = in.readUTF();
+                cliAddr = recebidoCliente.split("->");
 
             } catch (IOException ex) {
                 System.out.println("\n\n\n\n\n\nTime Out " + timeout / 1000 + " segundos");
                 break;
             }
 
-            Long clientTime = Long.parseLong(recebidoCliente.trim());
+            Long clientTime = Long.parseLong(cliAddr[0].trim());
             st.addClientTime(clientTime);
+            st.addClienteAddr(cliAddr[1]);
+
 
             System.out.println(" ---- Cliente enviou a diferença em timestamp:" + clientTime);
 
@@ -69,8 +75,19 @@ public class Listener implements Runnable {
         
         System.out.println("Novo horário!!!!!!!  " + sdf.format(serverTime));
         
-  
-
+        for(int i = 0; i < st.getClientAddr().size(); i++){
+            Long clientDiffTime = st.getListOfClientTime().get(i);
+            clientDiffTime  = clientDiffTime - newTime;
+            
+            try {
+                Socket clientSocket = null;
+                clientSocket = new Socket("localhost", Integer.parseInt(st.getClientAddr().get(i)));
+                DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+                outToServer.writeUTF(clientDiffTime.toString());
+            } catch (IOException ex) {
+                Logger.getLogger(Listener.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
     }
 

@@ -1,10 +1,12 @@
 package client;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -48,10 +50,19 @@ public class Client {
         int portServ = Integer.parseInt(parts[0]);
         Socket clientSocket = new Socket("localhost", portServ);
         String msgIDUsuario = changeTime.toString();
+        msgIDUsuario = msgIDUsuario + "->" + clientSocket.getLocalPort();
+
         DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
         outToServer.writeUTF(msgIDUsuario);
+        
+        DataInputStream inputStram = new DataInputStream(clientSocket.getInputStream());
+        inputStram.readUTF();
+        
 
-        mcs.receive(pkg);
+        String recieve = inputStram.readUTF();
+        
+        System.out.println("aaeeeee " + recieve);
+        
         data = new String(pkg.getData()).trim();
         System.out.println(data);
         //Enviar a média para todos os clientes;
