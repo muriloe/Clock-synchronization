@@ -5,6 +5,7 @@
  */
 package timeserver;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 public class Singleton {
      private static Singleton myObj;
      private List<Long> listOfClientTime;
-     private List<String> listOfClientAddr;
+     private List<Socket> listOfClientAddr;
 
     public static Singleton getMyObj() {
         return myObj;
@@ -49,15 +50,15 @@ public class Singleton {
         this.listOfClientTime = listOfClientTime;
     }
     
-    public List<String> getClientAddr() {
+    public List<Socket> getClientAddr() {
         return listOfClientAddr;
     }
 
-    public void setClientAddr(List<String> clientAddr) {
+    public void setClientAddr(List<Socket> clientAddr) {
         this.listOfClientAddr = clientAddr;
     }
     
-    public void addClienteAddr(String addr){
+    public void addClienteAddr(Socket addr){
         listOfClientAddr.add(addr);
     }
 }

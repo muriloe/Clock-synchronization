@@ -9,6 +9,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Random;
 
 /**
  *
@@ -44,6 +45,7 @@ public class TimeServer {
                 InetAddress addr = InetAddress.getByName("228.5.6.7");
                 DatagramSocket ds = new DatagramSocket();
                 DatagramPacket pkg = new DatagramPacket(b, b.length, addr, port);
+                sendWithDelay();
                 ds.send(pkg);
 
             } catch (Exception e) {
@@ -52,5 +54,12 @@ public class TimeServer {
 
         }
 
+    }
+
+    public static void sendWithDelay() throws InterruptedException {
+        Random gerador = new Random();
+        int rand = gerador.nextInt(4000);
+        System.out.println("Delay de " + rand / 1000 + " segundos");
+        Thread.sleep(rand);
     }
 }
